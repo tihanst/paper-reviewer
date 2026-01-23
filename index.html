@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S2 Paper Reviewer</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>S2 Paper Reviewer</h1>
+        <p class="subtitle">Upload a text file and let AI analyze it using Amazon Bedrock</p>
+
+        <form id="reviewForm">
+            <div class="form-section">
+                <label>AWS Credentials</label>
+                <div class="credentials-grid">
+                    <div>
+                        <input type="text" id="accessKeyId" placeholder="Access Key ID" required>
+                        <!-- <input type="text" id="accessKeyId" placeholder="Access Key ID"> -->
+                    </div>
+                    <div>
+                        <input type="password" id="secretAccessKey" placeholder="Secret Access Key" required>
+                        <!-- <input type="password" id="secretAccessKey" placeholder="Secret Access Key"> -->
+                    </div>
+                </div>
+                <input type="text" id="sessionToken" placeholder="Session Token (optional)" style="margin-top: 15px;">
+                <p class="info-text">Your credentials are only used for this request and are not stored</p>
+            </div>
+
+            <div class="form-section">
+                <label for="fileInput">Text File</label>
+                <input type="file" id="fileInput" accept=".txt,.md,.log,.csv,.json,.pdf" required>
+                <div class="error" id="fileError"></div>
+            </div>
+
+            <div class="form-section">
+                <label for="referenceInput">References Section Title</label>
+                <input type="text" id="referenceInput"
+                    placeholder="Enter the title of the references section exactly as written here..." maxlength="50">
+                <p class="info-text">Leave blank if none</p>
+            </div>
+
+            <div class="form-section">
+                <label>
+                    <input type="checkbox" id="referencesLLMCheck" disabled>
+                    Run LLM-assisted reference validation
+                </label>
+                <p class="info-text">Validates extracted references against Semantic Scholar</p>
+            </div>
+
+            <div class="form-section">
+                <label for="prompt">Prompt for AI Analysis</label>
+                <textarea id="prompt" placeholder="Enter your instructions for the AI..." maxlength="5000"
+                    required>Summarize the main findings of this paper you have in text or markdown form here.</textarea>
+                <div class="error" id="promptError"></div>
+                <p class="info-text">Maximum 5000 characters</p>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                Analyze Document
+            </button>
+        </form>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Processing your request...</p>
+        </div>
+
+        <div class="results-section">
+            <label>Results</label>
+            <textarea id="results" readonly placeholder="Analysis results will appear here..."></textarea>
+        </div>
+
+        <div class="results-section">
+            <label>References Check Results</label>
+            <textarea id="referencesCheckResults" readonly
+                placeholder="Reference validation results will appear here..."></textarea>
+        </div>
+    </div>
+</body>
+
+</html>
