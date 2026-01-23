@@ -294,19 +294,25 @@ def ensure_bucket_exists(credentials):
                 # Bucket doesn't exist, create it
                 print(f"Creating bucket: {S3_BUCKET_NAME}")
 
-                s3_client.create_bucket(Bucket=S3_BUCKET_NAME)
+                if AWS_REGION == "us-east-1":
+                    s3_client.create_bucket(Bucket=S3_BUCKET_NAME)
+                else:
+                    s3_client.create_bucket(
+                        Bucket=S3_BUCKET_NAME,
+                        CreateBucketConfiguration={"LocationConstraint": AWS_REGION}
+                    )
 
                 # Set lifecycle policy to expire objects after 30 days
                 lifecycle_config = {
                     "Rules": [
                         {
-                            "Id": "ExpireUploadsAfter30Days",
+                            "ID": "ExpireUploadsAfter30Days",
                             "Status": "Enabled",
                             "Expiration": {"Days": 30},
                             "Filter": {"Prefix": "uploads/"},
                         },
                         {
-                            "Id": "ExpireUploadsAfter30Days",
+                            "ID": "ExpireMarkdownsAfter30Days",
                             "Status": "Enabled",
                             "Expiration": {"Days": 30},
                             "Filter": {"Prefix": "markdowns/"},
