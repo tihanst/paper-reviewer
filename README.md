@@ -35,7 +35,9 @@ An AWS Lambda-based application that analyzes academic papers using AI. Upload a
 | Component | Description |
 |-----------|-------------|
 | `lambda_main.py` | Main Lambda handler with PDF processing and Bedrock integration |
-| `index.html` | Single-page web frontend with AWS credential input |
+| `index.html` | Web frontend HTML structure |
+| `styles.css` | Frontend styling |
+| `app.js` | Frontend JavaScript (includes Lambda endpoint configuration) |
 | `resources/` | Pre-built Lambda layer with Linux-compatible pymupdf binaries |
 | S3 Bucket | Stores PDFs, markdown conversions, and extracted references |
 
@@ -128,7 +130,7 @@ Use the included `deploy.sh` script:
 4. **Enable Function URL** with CORS support
 
 5. **Update Frontend**
-   - Set the Lambda endpoint URL in `index.html` at line 183
+   - Set the `LAMBDA_ENDPOINT` URL in `app.js`
 
 ## Usage
 
