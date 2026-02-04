@@ -3,7 +3,7 @@
 // ============================================
 // After deploying the Lambda function, replace the URL below with your Function URL
 // Example: 'https://abc123xyz.lambda-url.us-east-1.on.aws/'
-const LAMBDA_ENDPOINT = ''
+const LAMBDA_ENDPOINT = 'https://kiuuve5kyuzzvtin2brgie466y0tvbsc.lambda-url.us-east-2.on.aws/'
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -105,7 +105,11 @@ document.addEventListener('DOMContentLoaded', function () {
                             response.referencesValidation.forEach((pair, index) => {
                                 validationText += `Mismatch ${index + 1}:\n`;
                                 validationText += `  Extracted: ${JSON.stringify(pair[0])}\n`;
-                                validationText += `  Scholar: ${JSON.stringify(pair[1])}\n\n`;
+                                validationText += `  Scholar: ${JSON.stringify(pair[1])}\n`;
+                                if (pair[2]) {
+                                    validationText += `  Reason: ${pair[2]}\n`;
+                                }
+                                validationText += `\n`;
                             });
                         }
 

@@ -1012,15 +1012,17 @@ def validate_references(
             }
 
             # c) Call Bedrock for comparison
-            user_prompt = f"""Compare the following two dictionaries and their fields and analyze if they represent a reference to the same paper. If you assess that the papers are the same based on the values for the title, authors, and date keys, you will output the word SAME (use all capitals). If you perceive that the discrepancy between the two sets of data is too large, then output the word DIFFERENT (use all capitals).
+            user_prompt = f"""Compare the following two dictionaries and their fields and analyze if they represent a reference to the same paper. If you assess that the papers are the same based on the values for the title, authors, and date keys, output only the word SAME (use all capitals). If you perceive that the discrepancy between the two sets of data is too large, output the word DIFFERENT (use all capitals) followed by a pipe character and a brief explanation of the key discrepancies.
+
+Format:
+- If same: SAME
+- If different: DIFFERENT|<brief explanation of discrepancies>
 
 The papers you are to compare are summarized by the data in:
 {cur_ref}
 
 And the data in:
-{sretrieved}
-
-Remember, You are to **only** output the word SAME or the word DIFFERENT. Do not output any other words."""
+{sretrieved}"""
             print(f"Calling bedrock for {ref_title}")
             resp = bedrock_client.converse(
                 modelId=BEDROCK_MODEL_ID,
@@ -1036,7 +1038,9 @@ Remember, You are to **only** output the word SAME or the word DIFFERENT. Do not
 
             # d) Check result and add to problem list if DIFFERENT
             if "DIFFERENT" in result_text:
-                references_problem_return_list.append((cur_ref, sretrieved))
+                parts = result_text.split("|", 1)
+                explanation = parts[1].strip() if len(parts) > 1 else ""
+                references_problem_return_list.append((cur_ref, sretrieved, explanation))
 
         except Exception as e:
             print(f"Error validating reference '{ref_title}': {e}")
