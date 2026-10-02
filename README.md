@@ -1,6 +1,6 @@
 # Academic Paper Reviewer
 
-An AWS Lambda-based application that analyzes academic papers using AI. Upload a PDF, provide a prompt, and receive intelligent analysis powered by AWS Bedrock.
+An AWS Lambda-based application that analyzes academic papers using AI, extracting references and validating against Semantic Scholar. Upload a PDF, provide a prompt, and receive intelligent analysis powered by AWS Bedrock.
 
 ## Features
 
