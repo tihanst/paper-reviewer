@@ -630,10 +630,11 @@ def run_references_extraction(
         print(f"Cannot find {ref_title} section in markdown text")
         return
 
-    if extracted_references_indices[1] is None:
-        start_index = extracted_references_indices[0]
+    start_index, end_index = extracted_references_indices
+
+    if end_index is None:
         end_index = _find_next_marked_heading_char_v2(
-            markdown_text, extracted_references_indices[0]
+            markdown_text, start_index
         )
 
     extracted_references = markdown_text[start_index:end_index]
